@@ -2,9 +2,9 @@
 
 Simulador de circuitos cuánticos en el navegador. Preparas cada qubit en cualquier punto de la esfera de Bloch, aplicas puertas, mides (con colapso real) y ves el estado paso a paso. Es un único archivo HTML: no hay que instalar nada, no necesita servidor y no tiene dependencias.
 
-![Captura de Colapso](docs/captura.png)
+![Captura de Colapso](docs/captura-oscuro.png)
 
-**Pruébalo:** `https://<tu-usuario>.github.io/colapso/`
+**Pruébalo:** `https://mateogajic.github.io/colapso/`
 
 ## Qué hace
 
