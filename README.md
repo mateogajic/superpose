@@ -1,64 +1,85 @@
-# Colapso
+# Superpose
 
-Simulador de circuitos cuánticos en el navegador. Preparas cada qubit en cualquier punto de la esfera de Bloch, aplicas puertas, mides (con colapso real) y ves el estado paso a paso. Es un único archivo HTML: no hay que instalar nada, no necesita servidor y no tiene dependencias.
+**An interactive qubit simulator that runs in your browser.** Put qubits anywhere on the Bloch sphere, apply gates, measure them, and watch the state collapse. Then step back through the circuit to see exactly what each gate did.
 
-![Captura de Colapso](docs/captura-oscuro.png)
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshot-dark.png">
+  <img alt="Superpose showing the quantum teleportation example: circuit, Bloch spheres and initial-state controls" src="docs/screenshot.png">
+</picture>
 
-**Pruébalo:** `https://mateogajic.github.io/colapso/`
+Superpose is a single HTML file with no installs, accounts or build step. Open `index.html` and start experimenting.
 
-## Qué hace
+## Features
 
-- **Preparación**
-  - De 1 a 5 qubits.
-  - Cada qubit se fija con presets (|0⟩, |1⟩, |±⟩, |±i⟩) o con los deslizadores θ y φ.
-  - También se puede introducir un vector de estado arbitrario. Admite expresiones como `1/√2`, `i*exp(i*pi/4)` o `1e-3` y se normaliza solo.
-- **Puertas**
-  - De un qubit: H, X, Y, Z, S, S†, T, T†, √X.
-  - Rotaciones Rx, Ry, Rz y fase P(θ).
-  - De varios qubits: CNOT, CZ, SWAP y Toffoli.
-- **Medición**
-  - De un qubit en base Z, X o Y, con colapso del estado.
-  - De todos los qubits a la vez en base Z.
-  - Muestreo de N *shots* sin colapsar, para comparar frecuencias con |cᵢ|².
-- **Visualización**
-  - Diagrama del circuito.
-  - Una esfera de Bloch por qubit, con su estado reducido. Si |r| < 1, el qubit está entrelazado.
-  - Tabla de amplitudes con la fase de cada componente.
-  - Estado en notación de Dirac.
-- **Paso a paso**: haz clic en cualquier puerta del circuito, o usa las flechas ← →, para ver el estado en ese punto. Si añades una puerta estando en un paso intermedio, se inserta ahí.
-- **Ejemplos incluidos**: estado de Bell, GHZ, interferómetro Mach–Zehnder, algoritmo de Deutsch, teletransportación y Grover de 2 qubits. Cada uno trae una breve explicación.
-- **Tema claro y oscuro**: sigue el del sistema por defecto y se puede cambiar con el botón de la esquina.
-- **Exportar a Qiskit**: genera el código Python equivalente. He comprobado que reproduce el mismo vector de estado.
+### Prepare any state
+- Work with **1 to 5 qubits**.
+- Set each qubit with one click (|0⟩, |1⟩, |+⟩, |−⟩, |+i⟩, |−i⟩), or move the **θ and φ sliders** to any point on the Bloch sphere.
+- Load a **custom state vector**, entangled states included. Amplitudes accept expressions like `1/√2`, `i*exp(i*pi/4)` or `1e-3`, and the vector is normalized for you.
 
-## Convenciones
+### Apply gates
+| Type | Gates |
+|---|---|
+| Single qubit | H, X, Y, Z, S, S†, T, T†, √X |
+| Rotations | Rx(θ), Ry(θ), Rz(θ), P(θ) |
+| Multi-qubit | CNOT, CZ, SWAP, Toffoli (CCX) |
 
-- **Orden de los qubits**: q0 es el bit de la izquierda en los kets. En |01⟩, q0 = 0 y q1 = 1, como en la mayoría de libros de texto.
-  - Qiskit usa el orden contrario. El código exportado lo recuerda en un comentario.
-- **Estado inicial** de cada qubit: cos(θ/2)|0⟩ + e^{iφ} sin(θ/2)|1⟩.
-- **Rotaciones**: R_a(θ) = exp(−iθσ_a/2).
-- **Deshacer** vuelve a ejecutar el circuito conservando los resultados de las mediciones anteriores, para que el estado no cambie al azar al quitar una puerta.
-- **Teletransportación** usa el principio de medida diferida: las correcciones clásicas se sustituyen por puertas controladas.
+### Measure
+- **Measure one qubit** in the Z, X or Y basis. The state collapses and the circuit carries on from there, so you can see what a measurement does to the other qubits.
+- **Measure all qubits** in the Z basis.
+- **Sample shots without collapsing** to compare measured frequencies with the theoretical probabilities |cᵢ|².
 
-## Usarlo en local
+### See what's going on
+- **A Bloch sphere for every qubit** showing its reduced state. When a qubit becomes entangled, its arrow shrinks inside the sphere and it is labelled *entangled*. You can drag the spheres to rotate them.
+- **The full state vector**: a table of amplitudes, probabilities and phases, plus the state written in Dirac notation.
+- **A live circuit diagram.**
 
-Descarga `index.html` y ábrelo en cualquier navegador moderno. Las fuentes se cargan desde Google Fonts. Sin conexión se usan las fuentes del sistema y todo lo demás sigue funcionando.
+### Step through the circuit
+Click any gate, or use the **← →** keys, to see the state at that point. A gate added while you're on an earlier step is inserted at that step.
 
-## Publicarlo con GitHub Pages
+### Built-in examples
+Each example loads a ready-made circuit with a short explanation:
 
-1. Sube los archivos a un repositorio, por ejemplo `colapso`.
-2. Entra en **Settings → Pages**.
-3. En *Source*, elige **Deploy from a branch**, después la rama `main` y la carpeta `/ (root)`. Guarda.
-4. En un minuto estará en `https://<tu-usuario>.github.io/colapso/`.
+- **Bell state**: entanglement from one H and one CNOT.
+- **GHZ state**: three-qubit entanglement.
+- **Mach–Zehnder interferometer**: single-photon interference.
+- **Deutsch algorithm**: tells a constant function from a balanced one with a single query.
+- **Quantum teleportation**: moves an arbitrary state from q0 to q2.
+- **Grover search**: finds the marked item among four in one iteration.
 
-## Cómo funciona
+### Export to Qiskit
+Any circuit can be copied as equivalent [Qiskit](https://www.ibm.com/quantum/qiskit) code to run in Python or take to IBM Quantum hardware. The exported code reproduces the simulator's state vector exactly.
 
-El simulador guarda el vector de estado completo: 2ⁿ amplitudes complejas en dos `Float64Array`, una para las partes reales y otra para las imaginarias.
+### Light and dark themes
+The theme follows your system setting by default. You can switch it with the button in the top-right corner.
 
-- Cada puerta de un qubit (controlada o no) se aplica como una matriz 2×2 sobre los pares de amplitudes cuyo índice solo difiere en el bit de ese qubit.
-- Una medición calcula la probabilidad de cada resultado, elimina las componentes incompatibles y renormaliza.
-- Para medir en base X o Y, el estado se rota a la base Z, se mide y se deshace la rotación.
-- El vector de Bloch de cada qubit sale de su matriz densidad reducida (traza parcial sobre el resto).
+## Getting started
 
-## Licencia
+1. Download `index.html` (or clone this repository).
+2. Open it in any modern browser.
 
-MIT. Consulta [LICENSE](LICENSE).
+It works offline. Without a connection it falls back to system fonts.
+
+## Conventions
+
+- **Qubit order**: q0 is the leftmost bit in kets. In |01⟩, q0 = 0 and q1 = 1, which is the usual textbook convention.
+  - Qiskit uses the opposite order. The exported code includes a comment reminding you of this.
+- **Single-qubit states**: cos(θ/2)|0⟩ + e^{iφ} sin(θ/2)|1⟩.
+- **Rotations**: R_a(θ) = exp(−iθσ_a/2).
+- **Undo** keeps the outcomes of earlier measurements, so removing a gate doesn't reshuffle random results.
+- **Teleportation** uses the deferred measurement principle: the classical corrections are replaced by controlled gates.
+
+## How it works
+
+Superpose is an exact state-vector simulator. It stores all 2ⁿ complex amplitudes.
+
+- **Gates**: every gate is applied as a 2×2 matrix (controlled where needed) to the pairs of amplitudes that differ only in the target qubit's bit.
+- **Measurement**:
+  1. Compute the probability of each outcome.
+  2. Pick one at random.
+  3. Discard the incompatible components and renormalize.
+  - For X- and Y-basis measurements, the state is rotated into the Z basis first and rotated back afterwards.
+- **Bloch vectors**: each qubit's vector comes from its reduced density matrix, obtained by a partial trace over the other qubits.
+
+## License
+
+[MIT](LICENSE)
