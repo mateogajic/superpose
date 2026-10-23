@@ -82,4 +82,7 @@ Superpose is an exact state-vector simulator. It stores all 2ⁿ complex amplitu
 
 ## License
 
-[MIT](LICENSE)
+Superpose is released under the [PolyForm Noncommercial License 1.0.0](LICENSE.md).
+
+- **Free for any noncommercial use**: personal projects, study, teaching, research, and use by schools, universities and nonprofit organizations. You can use, copy, modify and share it, as long as you keep the license and the copyright notice.
+- **Commercial use is not included.** If you'd like to use Superpose in a commercial product or service, please get in touch about a commercial license.
